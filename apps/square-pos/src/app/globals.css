@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+@layer reset, base, tokens, recipes, utilities;
+
+:root {
+  --font-heading: 'Noto Sans', sans-serif;
+  --font-sans: 'Roboto', sans-serif;
+}
+
+html {
+  font-family: var(--font-sans);
+  color: var(--colors-text);
+  background-color: var(--colors-surface-layout);
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+}
+
+

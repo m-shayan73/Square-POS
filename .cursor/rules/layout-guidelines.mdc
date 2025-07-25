@@ -1,0 +1,64 @@
+---
+description: 
+globs: *.tsx,*.jsx,*.mdx
+alwaysApply: false
+---
+# Layout Guidelines
+
+## Core Principles
+- Use layout patterns from Pallas UI instead of plain HTML elements
+- Replace `<div>` with `<Box>` from `@styled-system/jsx`
+- Always use JSX props variation for styling instead of class names
+- Prefer pattern-specific components over generic ones when available
+
+## Component Priorities
+1. First try `HStack` and `VStack` for simple layouts
+2. Use `Flex` only when HStack/VStack aren't sufficient
+3. Use `Grid` and `GridItem` for complex two-dimensional layouts
+4. Use `Box` for simple containers without specific layout needs
+5. Use `Circle` and `Square` for geometric shape requirements
+6. Use `AspectRatio` to maintain specific width-to-height ratios
+
+## Common Properties
+Apply these properties directly to all layout components:
+
+### Padding
+- `p` - All sides
+- `px` - Horizontal (left/right)
+- `py` - Vertical (top/bottom)
+- `pt`, `pr`, `pb`, `pl` - Individual sides
+
+### Sizing
+- `w`, `minW`, `maxW` - Width properties
+- `h`, `minH`, `maxH` - Height properties
+
+### Position
+- `position` - CSS position property
+
+## Import Pattern
+```jsx
+import { Box, Flex, HStack, VStack, Grid, GridItem, Circle, Square, AspectRatio } from '@styled-system/jsx'
+```
+
+## Examples
+```jsx
+// Preferred: Using HStack/VStack
+<VStack gap={4}>
+  <HStack gap={2} justify="space-between">
+    <Box p={3}>Item 1</Box>
+    <Box p={3}>Item 2</Box>
+  </HStack>
+</VStack>
+
+// When needed: Using Flex for more complex scenarios
+<Flex direction="row" wrap="wrap" gap={4}>
+  <Box flex="1">Flexible item</Box>
+</Flex>
+
+// For grid layouts:
+<Grid columns={3} gap={4}>
+  <GridItem colSpan={2}>Spans 2 columns</GridItem>
+  <GridItem>Regular item</GridItem>
+</Grid>
+```
+```

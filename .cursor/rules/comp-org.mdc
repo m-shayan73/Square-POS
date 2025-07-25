@@ -1,0 +1,54 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+## Core Component Structure
+
+pallas-ui/
+├── components/                       # Main UI component library
+│   ├── src/
+│   │   └── ui/
+│   │       ├── accordion/            # Example component 
+│   │       │   ├── index.ts          # Main export file
+│   │       │   └── root.tsx          # Component implementation
+│   │       └── [other-components]/   # Other UI components
+│   └── styled-system/                # Generated styling code
+│
+├── apps/
+│   ├── docs/                         # Documentation site
+│   │   ├── app/
+│   │   │   └── content/
+│   │   │       └── components/    # Component documentation MDX files
+│   │   │           ├── accordion.mdx # Documentation for specific component
+│   │   │           └── [other].mdx   # Other component docs
+│   │   ├── components/
+│   │   │   ├── previews/             # Interactive examples of components
+│   │   │   │   ├── accordion/        # Examples for specific component
+│   │   │   │   │   ├── index.tsx     # Default example
+│   │   │   │   │   ├── controlled.tsx# Controlled state example
+│   │   │   │   │   └── [other].tsx   # Other examples
+│   │   │   │   └── [other-component]/# Examples for other components
+│   │   │   └── ui/                   # Component copies used in docs
+│   │   │       └── [component]/      # Component copied from component/  
+│   │   └── styled-system/            # Generated styling code for docs
+│   │
+│   └── web/                          # Main web application
+│       └── [app structure]
+│
+├── packages/
+│   ├── panda/                        # Styling system package
+│   │   ├── src/
+│   │   │   ├── theme/
+│   │   │   │   ├── recipes/          # Component-specific style recipes
+│   │   │   │   │   └── accordion.ts  # Styles for specific components
+│   │   │   │   ├── tokens/           # Design tokens
+│   │   │   │   └── utilities/        # Style utilities
+│   │   │   └── colors/               # Color definitions
+│   │   └── styled-system/            # Generated styling code
+│   │
+│   └── style-context/                # Shared styling context
+│
+└── ui-primitives/                    # Low-level UI primitives sometimes
+    ├── breadcrumb/                   # Example primitive component
+    └── sidebar/                      # Example primitive component

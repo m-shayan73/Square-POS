@@ -1,0 +1,28 @@
+{
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "components/*",
+    "ui-primitives/*"
+  ],
+  "name": "root",
+  "private": true,
+  "scripts": {
+    "build": "turbo build --no-cache --force",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "sync-components": "rsync -av --delete ./components/src/ui/ ./apps/docs/components/ui/ && node ./scripts/process-imports.js"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@pandacss/dev": "^0.50.0",
+    "prettier": "^3.2.5",
+    "turbo": "^2.3.3",
+    "typescript": "5.5.4"
+  },
+  "packageManager": "pnpm@10.10.0",
+  "engines": {
+    "node": ">=18"
+  }
+}
