@@ -27,7 +27,7 @@ const themeColorPalette: ThemeColorPalette = {
 }
 
 export default defineConfig({
-  strictTokens: true,
+  // strictTokens: true,
   // Whether to use css reset
   preflight: true,
 

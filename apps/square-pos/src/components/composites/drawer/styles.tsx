@@ -1,6 +1,6 @@
 import { css } from '@styled-system/css'
 
-export const drawerContainer = css({
+export const drawer = css({
   position: 'fixed',
   top: '0',
   right: '0',

@@ -19,6 +19,7 @@ interface ModifiedItem
 export interface CartProps {
   openCartDrawer: boolean;
   setOpenCartDrawer: (open: boolean) => void;
+  cartDrawerRef: React.RefObject<HTMLDivElement | null>;
   items: ModifiedItem[];
   amounts: {
     subtotal: number;
@@ -58,6 +59,7 @@ export interface CartProps {
 const Cart = memo(function Cart({
   openCartDrawer,
   setOpenCartDrawer,
+  cartDrawerRef,
   items,
   amounts,
   isOrderCalculationLoading,
@@ -79,7 +81,7 @@ const Cart = memo(function Cart({
     <>
       <CartIcon setOpen={setOpenCartDrawer} itemCount={itemCount} />
 
-      <Drawer open={openCartDrawer} onClose={() => setOpenCartDrawer(false)}>
+      <Drawer open={openCartDrawer} onClose={() => setOpenCartDrawer(false)} drawerRef={cartDrawerRef}>
         <VStack gap="gap.component.lg" align="stretch" flex="1">
           <Heading level={5}>Your Cart</Heading>
 

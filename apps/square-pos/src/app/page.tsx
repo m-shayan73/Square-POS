@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import CenterSpinner from "@/components/composites/common/CenterSpinner";
 import { Box } from "@styled-system/jsx/box";
 
-export default function Home() {
+export default function RootPage() {
   const { data: session, status } = useSession();
 
   if (status === "loading") {

@@ -7,7 +7,6 @@ import { memo } from "react";
 
 type ItemCardsProps = {
   items: Item[];
-  // images: ImageMap
   addToCart: (item: CartItem) => void;
 };
 

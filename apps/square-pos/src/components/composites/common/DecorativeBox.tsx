@@ -1,6 +1,8 @@
 import { css } from '@styled-system/css'
 import { Box, type BoxProps } from '@styled-system/jsx'
 
+// copied from docs of palace ui
+
 export const DecorativeBox = (props: BoxProps) => (
   <Box
     {...props}

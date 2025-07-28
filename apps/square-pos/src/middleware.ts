@@ -13,10 +13,9 @@ export default withAuth(
   },
 )
 
-// Specify which routes to protect
 export const config = {
   matcher: [
-    // Protect everything except for the login and public assets
+    // Protect everything except for the auth api route and public assets
     '/((?!api/auth|favicon.ico|square-logo-black.svg|square-logo-white.svg).*)',
   ],
 }

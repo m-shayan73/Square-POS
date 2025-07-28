@@ -34,13 +34,13 @@ const Header = memo(function Header({
   handleSignOut,
   openCartDrawer,
   setOpenCartDrawer,
+  cartDrawerRef,
   items,
   amounts,
   isOrderCalculationLoading,
   updateQuantity,
   handleItemDiscountsChange,
   handleItemTaxesChange,
-
   availableDiscounts,
   availableTaxes,
   globalDiscountsApplied,
@@ -61,6 +61,7 @@ const Header = memo(function Header({
         <Cart
           openCartDrawer={openCartDrawer}
           setOpenCartDrawer={setOpenCartDrawer}
+          cartDrawerRef={cartDrawerRef}
           items={items}
           amounts={amounts}
           isOrderCalculationLoading={isOrderCalculationLoading}

@@ -5,13 +5,11 @@ import ItemCards from "@/components/composites/item-browser/item-cards";
 import ItemFilters from "@/components/composites/item-browser/item-filters";
 import { css } from "@styled-system/css";
 import { VStack } from "@styled-system/jsx";
-import CenterSpinner from "@/components/composites/common/CenterSpinner"; 
+import CenterSpinner from "@/components/composites/common/CenterSpinner";
 
-import type { Item } from "@/shared/types/items";
-import type { CartItem } from "@/shared/types/cart";
-import type { SearchFilters } from "@/shared/types/items";
+import type { Item, CartItem, SearchFilters } from "@/shared/types";
 
-export interface ItemListProps {
+export interface ItemBrowserProps {
   items: Item[];
   isItemListLoading: boolean;
   search: string;
@@ -37,7 +35,7 @@ function ItemBrowser({
   handleFilterChange,
   handleResetFilters,
   addItemToCart,
-}: ItemListProps) {
+}: ItemBrowserProps) {
   return (
     <VStack
       className={css({

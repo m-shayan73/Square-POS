@@ -10,6 +10,7 @@ export function HeaderContainer() {
     handleSignOut,
     openCartDrawer,
     setOpenCartDrawer,
+    cartDrawerRef,
     items,
     amounts,
     isOrderCalculationLoading,
@@ -33,6 +34,7 @@ export function HeaderContainer() {
       handleSignOut={handleSignOut}
       openCartDrawer={openCartDrawer}
       setOpenCartDrawer={setOpenCartDrawer}
+      cartDrawerRef={cartDrawerRef}
       items={items}
       updateQuantity={updateQuantity}
       amounts={amounts}

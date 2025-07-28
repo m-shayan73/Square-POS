@@ -25,7 +25,7 @@ export function useItemList() {
     [debouncedSetSearch]
   );
 
-  const { items, isPending } = useItemsSearch(
+  const { items, isLoading } = useItemsSearch(
     debouncedSearch,
     debouncedFilters
   );
@@ -36,7 +36,7 @@ export function useItemList() {
     filters,
     ...filterHelpers,
     items,
-    isLoading: isPending,
+    isLoading,
   };
 }
 
@@ -106,12 +106,9 @@ function useFilters() {
 }
 
 function useItemsSearch(search: string, filters: SearchFilters) {
-  const trimmedSearch = useMemo(
-    () => (search.trim().length > 1 ? search.trim() : ""),
-    [search]
-  );
+  const trimmedSearch = search.trim().length > 1 ? search.trim() : "";
 
-  const { data, isPending } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["items", trimmedSearch, filters],
     queryFn: async () => {
       const searchParams: SearchParams = {
@@ -128,5 +125,5 @@ function useItemsSearch(search: string, filters: SearchFilters) {
     staleTime: 1000 * 60 * 5,
   });
 
-  return { items: data, isPending };
+  return { items: data, isLoading };
 }

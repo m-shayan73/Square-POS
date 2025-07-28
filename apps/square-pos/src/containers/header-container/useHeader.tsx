@@ -3,10 +3,11 @@ import { clientApi } from "@/shared/services/clients/client-api";
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState, useCallback, useMemo } from "react";
+import { useEffect, useState, useCallback, useMemo, useRef } from "react";
 import type { OnChangeValue } from "react-select";
 import { useShallow } from "zustand/react/shallow";
 import debounce from "lodash/debounce";
+import usePreventBubbleScroll from "@/shared/hooks/usePreventBubbleScroll";
 
 import type {
   CartItem,
@@ -24,6 +25,7 @@ export function useHeader() {
   const {
     openCartDrawer,
     setOpenCartDrawer,
+    cartDrawerRef,
     items,
     amounts,
     isOrderCalculationLoading,
@@ -68,6 +70,7 @@ export function useHeader() {
     handleSignOut,
     openCartDrawer,
     setOpenCartDrawer,
+    cartDrawerRef,
     items,
     amounts,
     isOrderCalculationLoading,
@@ -90,6 +93,10 @@ function useCart() {
   const [openCartDrawer, setOpenCartDrawer] = useState(false);
   const { discounts: availableDiscounts } = getDiscounts();
   const { taxes: availableTaxes } = getTaxes();
+
+  const cartDrawerRef = useRef<HTMLDivElement>(null);
+
+  usePreventBubbleScroll(cartDrawerRef, openCartDrawer);
 
   const {
     items,
@@ -235,6 +242,7 @@ function useCart() {
   return {
     openCartDrawer,
     setOpenCartDrawer,
+    cartDrawerRef,
     items: transformedItems,
     amounts,
     isOrderCalculationLoading,
