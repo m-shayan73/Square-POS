@@ -1,10 +1,10 @@
-import { Center } from '@styled-system/jsx'
+import { Box } from '@styled-system/jsx'
 import { Spinner } from '@pallas-ui/components/src/ui/spinner'
 
 export default function CenterSpinner() {
   return (
-    <Center h="full" w="full">
+    <Box position="fixed" inset="0" display="flex" alignItems="center" justifyContent="center">
       <Spinner color="primary" size="lg" />
-    </Center>
+    </Box>
   )
 }

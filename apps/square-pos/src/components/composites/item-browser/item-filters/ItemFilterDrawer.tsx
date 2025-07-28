@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { Button } from '@pallas-ui/components/src/ui/button'
 import { Input } from '@pallas-ui/components/src/ui/input'
 import { Label } from '@pallas-ui/components/src/ui/label'
@@ -12,7 +13,7 @@ interface ItemFiltersDrawerProps {
   handleResetFilters: () => void
 }
 
-export default function ItemFiltersDrawer({
+function ItemFiltersDrawer({
   filters,
   handleFilterChange,
   handleResetFilters,
@@ -98,3 +99,5 @@ export default function ItemFiltersDrawer({
     </VStack>
   )
 }
+
+export default memo(ItemFiltersDrawer)

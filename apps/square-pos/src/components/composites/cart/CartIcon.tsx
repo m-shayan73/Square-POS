@@ -9,7 +9,7 @@ type CartIconProps = {
   itemCount: number
 }
 
-const CartIcon = memo(function CartIcon({ setOpen, itemCount }: CartIconProps) {  
+export default function CartIcon({ setOpen, itemCount }: CartIconProps) {
   return (
     <Box className={cartIconContainer}>
       <ShoppingCart size={24} onClick={() => setOpen(true)} />
@@ -19,6 +19,4 @@ const CartIcon = memo(function CartIcon({ setOpen, itemCount }: CartIconProps) {
       </Badge>
     </Box>
   )
-})
-
-export default CartIcon
+}

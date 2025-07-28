@@ -12,6 +12,7 @@ export function HeaderContainer() {
     setOpenCartDrawer,
     items,
     amounts,
+    isOrderCalculationLoading,
     updateQuantity,
     handleItemDiscountsChange,
     handleItemTaxesChange,
@@ -35,6 +36,7 @@ export function HeaderContainer() {
       items={items}
       updateQuantity={updateQuantity}
       amounts={amounts}
+      isOrderCalculationLoading={isOrderCalculationLoading}
       handleItemDiscountsChange={handleItemDiscountsChange}
       handleItemTaxesChange={handleItemTaxesChange}
       availableDiscounts={availableDiscounts}

@@ -1,3 +1,4 @@
+import React, { memo } from 'react'
 import Drawer from '@/components/composites/drawer'
 import { Box, Flex, HStack } from '@styled-system/jsx'
 import { Filter } from 'lucide-react'
@@ -19,7 +20,7 @@ interface ItemFiltersProps {
   handleResetFilters: () => void
 }
 
-export default function ItemFilters({
+function ItemFilters({
   search,
   onSearchChange,
   open,
@@ -49,3 +50,5 @@ export default function ItemFilters({
     </HStack>
   )
 }
+
+export default memo(ItemFilters)

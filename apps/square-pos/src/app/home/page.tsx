@@ -3,13 +3,11 @@ import { getQueryClient } from '@/shared/services/clients/query-client'
 import { serverApi } from '@/shared/services/clients/server-api'
 import type { SearchParams } from '@/shared/types'
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query'
-import { Suspense } from 'react'
-import Loading from './loading'
 
-export default function Home() {
+export default async function Home() {
   const queryClient = getQueryClient()
 
-  void queryClient.prefetchQuery({
+  await queryClient.prefetchQuery({
     queryKey: ['items', '', {}],
     queryFn: async () => {
       const searchParams: SearchParams = {
@@ -25,9 +23,7 @@ export default function Home() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      {/* <Suspense fallback={<Loading />}> */}
       <ItemBrowserContainer />
-      {/* </Suspense> */}
     </HydrationBoundary>
   )
 }

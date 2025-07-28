@@ -1,13 +1,14 @@
 import { Input } from '@pallas-ui/components/src/ui/input'
 import { SearchIcon } from 'lucide-react'
 import Tooltip from '@pallas-ui/components/src/ui/tooltip/tooltip'
+import { memo } from 'react'
 
 interface SearchBarProps {
   search: string
   onSearchChange: (value: string) => void
 }
 
-export default function SearchBar({ search, onSearchChange }: SearchBarProps) {
+function SearchBar({ search, onSearchChange }: SearchBarProps) {
   return (
     <Tooltip.Provider delayDuration={100}>
       <Tooltip.Root>
@@ -28,3 +29,5 @@ export default function SearchBar({ search, onSearchChange }: SearchBarProps) {
     </Tooltip.Provider>
   )
 }
+
+export default memo(SearchBar)

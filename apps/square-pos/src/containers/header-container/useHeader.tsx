@@ -1,11 +1,12 @@
-import { useCartStore } from '@/shared/providers'
-import { clientApi } from '@/shared/services/clients/client-api'
-import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
-import { signOut, useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import type { OnChangeValue } from 'react-select'
-import { useShallow } from 'zustand/react/shallow'
+import { useCartStore } from "@/shared/providers";
+import { clientApi } from "@/shared/services/clients/client-api";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState, useCallback, useMemo } from "react";
+import type { OnChangeValue } from "react-select";
+import { useShallow } from "zustand/react/shallow";
+import debounce from "lodash/debounce";
 
 import type {
   CartItem,
@@ -14,17 +15,18 @@ import type {
   OrderCalculationResult,
   Tax,
   TaxOption,
-} from '@/shared/types'
+} from "@/shared/types";
 
 export function useHeader() {
-  const router = useRouter()
-  const { data: session } = useSession()
+  const router = useRouter();
+  const { data: session } = useSession();
 
   const {
     openCartDrawer,
     setOpenCartDrawer,
     items,
     amounts,
+    isOrderCalculationLoading,
     updateQuantity,
     handleItemDiscountsChange,
     handleItemTaxesChange,
@@ -36,26 +38,29 @@ export function useHeader() {
     handleGlobalTaxesChange,
     clearCart,
     handleCheckout,
-  } = useCart()
+  } = useCart();
 
-  function getInitials(name: string) {
+  const getInitials = useCallback((name: string) => {
     const initials = name
-      .split(' ')
+      .split(" ")
       .map((n) => n[0])
-      .join('')
-      .toUpperCase()
-    return initials.slice(0, 2)
-  }
+      .join("")
+      .toUpperCase();
+    return initials.slice(0, 2);
+  }, []);
 
-  function handleLogoClick() {
-    router.push('/home')
-  }
+  const handleLogoClick = useCallback(() => {
+    router.push("/home");
+  }, [router]);
 
-  function handleSignOut() {
-    signOut({ callbackUrl: '/' })
-  }
+  const handleSignOut = useCallback(() => {
+    signOut({ callbackUrl: "/" });
+  }, []);
 
-  const initials = session?.user?.name ? getInitials(session.user.name) : ''
+  const initials = useMemo(
+    () => (session?.user?.name ? getInitials(session.user.name) : ""),
+    [session?.user?.name, getInitials]
+  );
 
   return {
     initials,
@@ -65,6 +70,7 @@ export function useHeader() {
     setOpenCartDrawer,
     items,
     amounts,
+    isOrderCalculationLoading,
     updateQuantity,
     handleItemDiscountsChange,
     handleItemTaxesChange,
@@ -76,14 +82,14 @@ export function useHeader() {
     handleGlobalTaxesChange,
     clearCart,
     handleCheckout,
-  }
+  };
 }
 
 function useCart() {
-  const router = useRouter()
-  const [openCartDrawer, setOpenCartDrawer] = useState(false)
-  const { discounts: availableDiscounts } = getDiscounts()
-  const { taxes: availableTaxes } = getTaxes()
+  const router = useRouter();
+  const [openCartDrawer, setOpenCartDrawer] = useState(false);
+  const { discounts: availableDiscounts } = getDiscounts();
+  const { taxes: availableTaxes } = getTaxes();
 
   const {
     items,
@@ -110,14 +116,27 @@ function useCart() {
       setGlobalTaxes: state.setGlobalTaxes,
       setCartAmounts: state.setCartAmounts,
       clearCart: state.clearCart,
-    })),
-  )
+    }))
+  );
 
-  const { orderCalculation, isOrderCalculationLoading } = useOrderCalculation(items)
+  const [debouncedItems, setDebouncedItems] = useState(items);
+
+  const debouncedSetItems = useMemo(
+    () => debounce((newItems) => setDebouncedItems(newItems), 300),
+    []
+  );
+
+  useEffect(() => {
+    debouncedSetItems(items);
+  }, [items, debouncedSetItems]);
+
+  const { orderCalculation, isOrderCalculationLoading } =
+    useOrderCalculation(debouncedItems);
 
   useEffect(() => {
     if (orderCalculation) {
-      const { subtotal, totalTax, totalDiscount, netTotal, currency } = orderCalculation
+      const { subtotal, totalTax, totalDiscount, netTotal, currency } =
+        orderCalculation;
 
       setCartAmounts({
         subtotal,
@@ -125,65 +144,100 @@ function useCart() {
         totalDiscount,
         netTotal,
         currency,
-      })
+      });
     }
-  }, [orderCalculation, setCartAmounts])
+  }, [orderCalculation, setCartAmounts]);
 
-  const handleCheckout = () => {
-    router.push('/checkout')
-    setOpenCartDrawer(false)
-  }
+  const handleCheckout = useCallback(() => {
+    router.push("/checkout");
+    setOpenCartDrawer(false);
+  }, [router]);
 
   // Transformed for react select
-  const handleItemDiscountsChange = (
-    itemId: string,
-    variationId: string,
-    newValue: OnChangeValue<DiscountOption, true>,
-  ) => {
-    const newDiscounts = newValue.map((option) => ({ id: option.value, name: option.label }))
-    setItemDiscounts(itemId, variationId, newDiscounts)
-  }
+  const handleItemDiscountsChange = useCallback(
+    (
+      itemId: string,
+      variationId: string,
+      newValue: OnChangeValue<DiscountOption, true>
+    ) => {
+      const newDiscounts = newValue.map((option) => ({
+        id: option.value,
+        name: option.label,
+      }));
+      setItemDiscounts(itemId, variationId, newDiscounts);
+    },
+    [setItemDiscounts]
+  );
 
-  function handleItemTaxesChange(
-    itemId: string,
-    variationId: string,
-    newValue: OnChangeValue<TaxOption, true>,
-  ) {
-    const newTaxes = newValue.map((option) => ({ id: option.value, name: option.label }))
-    setItemTaxes(itemId, variationId, newTaxes)
-  }
+  const handleItemTaxesChange = useCallback(
+    (
+      itemId: string,
+      variationId: string,
+      newValue: OnChangeValue<TaxOption, true>
+    ) => {
+      const newTaxes = newValue.map((option) => ({
+        id: option.value,
+        name: option.label,
+      }));
+      setItemTaxes(itemId, variationId, newTaxes);
+    },
+    [setItemTaxes]
+  );
 
-  function handleGlobalDiscountsChange(newValue: OnChangeValue<DiscountOption, true>) {
-    const newGlobalDiscounts = newValue.map((option) => ({
-      id: option.value,
-      name: option.label,
-    }))
-    setGlobalDiscounts(newGlobalDiscounts)
-  }
+  const handleGlobalDiscountsChange = useCallback(
+    (newValue: OnChangeValue<DiscountOption, true>) => {
+      const newGlobalDiscounts = newValue.map((option) => ({
+        id: option.value,
+        name: option.label,
+      }));
+      setGlobalDiscounts(newGlobalDiscounts);
+    },
+    [setGlobalDiscounts]
+  );
 
-  const handleGlobalTaxesChange = (newValue: OnChangeValue<TaxOption, true>) => {
-    const newGlobalTaxes = newValue.map((option) => ({
-      id: option.value,
-      name: option.label,
-    }))
-    setGlobalTaxes(newGlobalTaxes)
-  }
+  const handleGlobalTaxesChange = useCallback(
+    (newValue: OnChangeValue<TaxOption, true>) => {
+      const newGlobalTaxes = newValue.map((option) => ({
+        id: option.value,
+        name: option.label,
+      }));
+      setGlobalTaxes(newGlobalTaxes);
+    },
+    [setGlobalTaxes]
+  );
 
   const transformedItems = items.map((item) => ({
     ...item,
     discountsApplied: transformToReactSelectOptions(item.discountsApplied),
     taxesApplied: transformToReactSelectOptions(item.taxesApplied),
-  }))
-  const transformedAvailableDiscounts = transformToReactSelectOptions(availableDiscounts)
-  const transformedAvailableTaxes = transformToReactSelectOptions(availableTaxes)
-  const transformedGlobalDiscounts = transformToReactSelectOptions(globalDiscountsApplied)
-  const transformedGlobalTaxes = transformToReactSelectOptions(globalTaxesApplied)
+  }));
+
+  const transformedAvailableDiscounts = useMemo(
+    () => transformToReactSelectOptions(availableDiscounts),
+    [availableDiscounts]
+  );
+
+  const transformedAvailableTaxes = useMemo(
+    () => transformToReactSelectOptions(availableTaxes),
+    [availableTaxes]
+  );
+
+  const transformedGlobalDiscounts = useMemo(
+    () => transformToReactSelectOptions(globalDiscountsApplied),
+    [globalDiscountsApplied]
+  );
+
+  const transformedGlobalTaxes = useMemo(
+    () => transformToReactSelectOptions(globalTaxesApplied),
+    [globalTaxesApplied]
+  );
 
   return {
     openCartDrawer,
     setOpenCartDrawer,
     items: transformedItems,
     amounts,
+    isOrderCalculationLoading,
     updateQuantity,
     handleItemDiscountsChange,
     handleItemTaxesChange,
@@ -195,41 +249,44 @@ function useCart() {
     handleGlobalTaxesChange,
     handleCheckout,
     clearCart,
-  }
+  };
 }
 
-export function getDiscounts(): { discounts: Discount[]; isLoadingDiscounts: boolean } {
+export function getDiscounts(): {
+  discounts: Discount[];
+  isLoadingDiscounts: boolean;
+} {
   const { data: discounts, isLoading: isLoadingDiscounts } = useQuery({
-    queryKey: ['discounts'],
+    queryKey: ["discounts"],
     queryFn: async () => {
-      const response = await clientApi.get('/api/pricing/discounts/list')
-      return response.data
+      const response = await clientApi.get("/api/pricing/discounts/list");
+      return response.data;
     },
-  })
+  });
 
-  return { discounts, isLoadingDiscounts }
+  return { discounts, isLoadingDiscounts };
 }
 
 export function getTaxes(): { taxes: Tax[]; isLoadingTaxes: boolean } {
   const { data: taxes, isLoading: isLoadingTaxes } = useQuery({
-    queryKey: ['taxes'],
+    queryKey: ["taxes"],
     queryFn: async () => {
-      const response = await clientApi.get('/api/pricing/taxes/list')
-      return response.data
+      const response = await clientApi.get("/api/pricing/taxes/list");
+      return response.data;
     },
-  })
+  });
 
-  return { taxes, isLoadingTaxes }
+  return { taxes, isLoadingTaxes };
 }
 
 export const useOrderCalculation = (
-  items: CartItem[],
+  items: CartItem[]
 ): {
-  orderCalculation: OrderCalculationResult
-  isOrderCalculationLoading: boolean
+  orderCalculation: OrderCalculationResult | undefined;
+  isOrderCalculationLoading: boolean;
 } => {
   const { data, isLoading } = useQuery<OrderCalculationResult>({
-    queryKey: ['order-calculation', items],
+    queryKey: ["order-calculation", items],
     queryFn: async () => {
       if (items.length === 0) {
         return {
@@ -237,33 +294,33 @@ export const useOrderCalculation = (
           totalTax: 0,
           totalDiscount: 0,
           netTotal: 0,
-          currency: 'USD',
-        } as OrderCalculationResult
+          currency: "USD",
+        } as OrderCalculationResult;
       }
 
-      const { data } = await clientApi.post('/api/orders/calculate', {
+      const { data } = await clientApi.post("/api/orders/calculate", {
         items,
-      })
-      return data
+      });
+      return data;
     },
     refetchOnWindowFocus: false,
-  })
+  });
 
   return {
     orderCalculation: data,
     isOrderCalculationLoading: isLoading,
-  }
-}
+  };
+};
 
 function transformToReactSelectOptions(
-  items: { id: string; name: string }[],
+  items: { id: string; name: string }[]
 ): { value: string; label: string }[] {
   if (!items || items.length === 0) {
-    return []
+    return [];
   }
 
   return items.map((item) => ({
     value: item.id,
     label: item.name,
-  }))
+  }));
 }

@@ -30,7 +30,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/shared/types/**/*.d.ts",
-    "src/app/home/loading.tsx"
+    "../../loading.tsx"
   ],
   "exclude": ["node_modules"]
 }

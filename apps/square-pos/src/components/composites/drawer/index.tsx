@@ -1,15 +1,14 @@
 import { Button } from '@pallas-ui/components/src/ui/button'
 import { Flex, VStack } from '@styled-system/jsx'
 import { X } from 'lucide-react'
-import { drawerContainer, drawerCloseButton } from './styles'
-import { useEffect, useRef } from 'react'
+import { memo, useEffect, useRef } from 'react'
+import { drawerCloseButton, drawerContainer } from './styles'
 
-export default function Drawer({
+const Drawer = memo(function Drawer({
   open,
   onClose,
   children,
 }: { open: boolean; onClose: () => void; children: React.ReactNode }) {
-
   const drawerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -47,4 +46,6 @@ export default function Drawer({
       {children}
     </VStack>
   )
-}
+})
+
+export default Drawer

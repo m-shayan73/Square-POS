@@ -23,6 +23,7 @@ export function ItemBrowserContainer() {
   return (
     <ItemBrowser
       items={items}
+      isItemListLoading={isLoading}
       search={search}
       setSearch={setSearch}
       filters={filters}

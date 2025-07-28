@@ -15,7 +15,7 @@ export function createCalculateOrderRoute(
       return new NextResponse('Unauthorized', { status: 401 })
     }
 
-    const calculateParams = (await req.json()) as CalculateOrderParams
+    const calculateParams = (await req.json()) as CalculateOrderParams || {}
 
     const ordersService = createPosServiceFn(
       session.accessToken as string,

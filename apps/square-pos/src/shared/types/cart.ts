@@ -1,3 +1,5 @@
+import { Image } from "./items"
+
 export interface Discount {
   id: string
   name: string
@@ -15,7 +17,7 @@ export type CartItem = {
   variationName: string
   price: number
   quantity: number
-  imageUrl?: string
+  image?: Image
   discountsApplied: Discount[]
   taxesApplied: Tax[]
 }

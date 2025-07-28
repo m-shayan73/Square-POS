@@ -1,11 +1,12 @@
 'use client'
 
-import { css } from '@styled-system/css'
-import { Box, HStack } from '@styled-system/jsx'
-import Logo from './Logo'
-import AvatarMenu from './AvatarMenu'
 import Cart from '@/components/composites/cart'
 import type { CartProps } from '@/components/composites/cart'
+import { css } from '@styled-system/css'
+import { Box, HStack } from '@styled-system/jsx'
+import { memo } from 'react'
+import AvatarMenu from './AvatarMenu'
+import Logo from './Logo'
 
 type HeaderProps = CartProps & {
   initials: string
@@ -27,7 +28,7 @@ const header = css({
   zIndex: '999',
 })
 
-export default function Header({
+const Header = memo(function Header({
   initials,
   handleLogoClick,
   handleSignOut,
@@ -35,6 +36,7 @@ export default function Header({
   setOpenCartDrawer,
   items,
   amounts,
+  isOrderCalculationLoading,
   updateQuantity,
   handleItemDiscountsChange,
   handleItemTaxesChange,
@@ -61,12 +63,12 @@ export default function Header({
           setOpenCartDrawer={setOpenCartDrawer}
           items={items}
           amounts={amounts}
+          isOrderCalculationLoading={isOrderCalculationLoading}
           availableDiscounts={availableDiscounts}
           availableTaxes={availableTaxes}
           globalDiscountsApplied={globalDiscountsApplied}
           globalTaxesApplied={globalTaxesApplied}
           handleGlobalDiscountsChange={handleGlobalDiscountsChange}
-
           handleGlobalTaxesChange={handleGlobalTaxesChange}
           handleItemDiscountsChange={handleItemDiscountsChange}
           handleItemTaxesChange={handleItemTaxesChange}
@@ -77,4 +79,6 @@ export default function Header({
       </HStack>
     </HStack>
   )
-}
+})
+
+export default Header

@@ -3,13 +3,17 @@ import { Paragraph } from '@pallas-ui/components/src/ui/typography'
 import { VStack } from '@styled-system/jsx'
 import { HStack } from '@styled-system/jsx'
 import type { CartProps } from '.'
+import { Skeleton } from '@pallas-ui/components/src/ui/skeleton'
 
 interface CartTotalsProps {
   amounts: CartProps['amounts']
+  isOrderCalculationLoading?: boolean
 }
 
-export default function CartTotals({ amounts }: CartTotalsProps) {
+export default function CartTotals({ amounts, isOrderCalculationLoading }: CartTotalsProps) {
   const { subtotal, totalTax, totalDiscount, netTotal, currency } = amounts
+  console.log('isOrderCalculationLoading:', isOrderCalculationLoading)
+
 
   const totals = [
     {
@@ -27,12 +31,20 @@ export default function CartTotals({ amounts }: CartTotalsProps) {
         total.label === 'Total Due' ? (
           <HStack justify="space-between" fontWeight="bold" key={total.label}>
             <Paragraph>{total.label}</Paragraph>
-            <Paragraph>{total.value}</Paragraph>
+            {isOrderCalculationLoading ? (
+              <Skeleton>...</Skeleton>
+            ) : (
+              <Paragraph>{total.value}</Paragraph>
+            )}
           </HStack>
         ) : (
           <HStack justify="space-between" key={total.label}>
             <Paragraph>{total.label}</Paragraph>
-            <Paragraph>{total.value}</Paragraph>
+            {isOrderCalculationLoading ? (
+              <Skeleton>...</Skeleton>
+            ) : (
+              <Paragraph>{total.value}</Paragraph>
+            )}
           </HStack>
         ),
       )}

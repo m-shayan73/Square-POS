@@ -1,3 +1,4 @@
+import { ReactScan } from '@/containers/ReactScan'
 import { AuthSessionProvider } from '@/shared/providers'
 import QueryProvider from '@/shared/providers/TanStackQueryProvider'
 import type { Metadata } from 'next'
@@ -15,6 +16,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <script src="https://cdn.jsdelivr.net/npm/react-scan/dist/auto.global.js" />
+      </head>
+      <ReactScan />
       <body>
         <AuthSessionProvider>
           <QueryProvider>{children}</QueryProvider>

@@ -1,39 +1,33 @@
-'use client'
+"use client";
 
-import ItemCards from '@/components/composites/item-browser/item-cards'
-import ItemFilters from '@/components/composites/item-browser/item-filters'
-import { css } from '@styled-system/css'
-import { VStack } from '@styled-system/jsx'
-import { Suspense } from 'react'
+import { memo } from "react";
+import ItemCards from "@/components/composites/item-browser/item-cards";
+import ItemFilters from "@/components/composites/item-browser/item-filters";
+import { css } from "@styled-system/css";
+import { VStack } from "@styled-system/jsx";
+import CenterSpinner from "@/components/composites/common/CenterSpinner"; 
 
-import type { Item } from '@/shared/types/items'
-import type { CartItem } from '@/shared/types/cart'
-import type { SearchFilters } from '@/shared/types/items'
-import CenterSpinner from '@/components/primitive/derived/CenterSpinner'
+import type { Item } from "@/shared/types/items";
+import type { CartItem } from "@/shared/types/cart";
+import type { SearchFilters } from "@/shared/types/items";
 
 export interface ItemListProps {
-  // Items
-  items: Item[]
-  // images?: Record<string, string>
-
-  // Search
-  search: string
-  setSearch: (search: string) => void
-
-  // Filter
-  filterDrawerOpen: boolean
-  onFilterDrawerClose: () => void
-  onFilterIconClick: () => void
-  filters: SearchFilters
-  handleFilterChange: (field: keyof SearchFilters, value: string) => void
-  handleResetFilters: () => void
-
-  // Actions
-  addItemToCart: (item: CartItem) => void
+  items: Item[];
+  isItemListLoading: boolean;
+  search: string;
+  setSearch: (search: string) => void;
+  filterDrawerOpen: boolean;
+  onFilterDrawerClose: () => void;
+  onFilterIconClick: () => void;
+  filters: SearchFilters;
+  handleFilterChange: (field: keyof SearchFilters, value: string) => void;
+  handleResetFilters: () => void;
+  addItemToCart: (item: CartItem) => void;
 }
 
-export default function ItemBrowser({
+function ItemBrowser({
   items,
+  isItemListLoading,
   search,
   setSearch,
   filterDrawerOpen,
@@ -47,10 +41,10 @@ export default function ItemBrowser({
   return (
     <VStack
       className={css({
-        marginTop: 'padding.block.sm',
-        padding: 'padding.block.3xl',
-        gap: 'gap.component.lg',
-        overflowY: 'auto',
+        marginTop: "padding.block.sm",
+        padding: "padding.block.3xl",
+        gap: "gap.component.lg",
+        overflowY: "auto",
       })}
     >
       <ItemFilters
@@ -63,9 +57,14 @@ export default function ItemBrowser({
         handleFilterChange={handleFilterChange}
         handleResetFilters={handleResetFilters}
       />
-      <Suspense fallback={<p>loadingg...</p>}>
+
+      {isItemListLoading ? (
+        <CenterSpinner />
+      ) : (
         <ItemCards items={items} addToCart={addItemToCart} />
-      </Suspense>
+      )}
     </VStack>
-  )
+  );
 }
+
+export default memo(ItemBrowser);
