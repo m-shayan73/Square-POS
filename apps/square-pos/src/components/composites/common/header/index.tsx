@@ -14,7 +14,7 @@ type HeaderProps = CartProps & {
   handleSignOut: () => void
 }
 
-const header = css({
+const headerStyles = css({
   bg: 'surface.elevated',
   alignItems: 'center',
   justifyContent: 'space-between',
@@ -25,7 +25,7 @@ const header = css({
   borderColor: 'border',
   position: 'sticky',
   top: '0',
-  zIndex: '999',
+  zIndex: '50',
 })
 
 const Header = memo(function Header({
@@ -35,6 +35,8 @@ const Header = memo(function Header({
   openCartDrawer,
   setOpenCartDrawer,
   cartDrawerRef,
+  openOrderToast,
+  setOpenOrderToast,
   items,
   amounts,
   isOrderCalculationLoading,
@@ -51,7 +53,7 @@ const Header = memo(function Header({
   handleCheckout,
 }: HeaderProps) {
   return (
-    <HStack className={header}>
+    <HStack className={headerStyles}>
       <Box>
         <Logo handleLogoClick={handleLogoClick} />
       </Box>
@@ -62,6 +64,8 @@ const Header = memo(function Header({
           openCartDrawer={openCartDrawer}
           setOpenCartDrawer={setOpenCartDrawer}
           cartDrawerRef={cartDrawerRef}
+          openOrderToast={openOrderToast}
+          setOpenOrderToast={setOpenOrderToast}
           items={items}
           amounts={amounts}
           isOrderCalculationLoading={isOrderCalculationLoading}

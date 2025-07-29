@@ -11,6 +11,8 @@ export function HeaderContainer() {
     openCartDrawer,
     setOpenCartDrawer,
     cartDrawerRef,
+    openOrderToast,
+    setOpenOrderToast,
     items,
     amounts,
     isOrderCalculationLoading,
@@ -35,6 +37,8 @@ export function HeaderContainer() {
       openCartDrawer={openCartDrawer}
       setOpenCartDrawer={setOpenCartDrawer}
       cartDrawerRef={cartDrawerRef}
+      openOrderToast={openOrderToast}
+      setOpenOrderToast={setOpenOrderToast}
       items={items}
       updateQuantity={updateQuantity}
       amounts={amounts}

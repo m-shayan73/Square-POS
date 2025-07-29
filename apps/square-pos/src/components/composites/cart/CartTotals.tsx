@@ -12,8 +12,6 @@ interface CartTotalsProps {
 
 export default function CartTotals({ amounts, isOrderCalculationLoading }: CartTotalsProps) {
   const { subtotal, totalTax, totalDiscount, netTotal, currency } = amounts
-  console.log('isOrderCalculationLoading:', isOrderCalculationLoading)
-
 
   const totals = [
     {

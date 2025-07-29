@@ -1,9 +1,9 @@
-export type DiscountOption = {
-  label: string
-  value: string
+export interface DiscountOption {
+  label: string;
+  value: string;
 }
 
-export type TaxOption = {
-  label: string
-  value: string
+export interface TaxOption {
+  label: string;
+  value: string;
 }

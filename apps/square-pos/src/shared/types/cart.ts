@@ -1,4 +1,4 @@
-import { Image } from "./items"
+import type { Image } from "./items"
 
 export interface Discount {
   id: string
@@ -10,7 +10,7 @@ export interface Tax {
   name: string
 }
 
-export type CartItem = {
+export interface CartItem {
   itemId: string
   variationId: string
   itemName: string

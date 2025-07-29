@@ -71,7 +71,7 @@ const CartItemCard = memo(function CartItemCard({
     ) : (
       <ImageSkeleton imageIconSize={32} />
     );
-  }, [item.image?.id]);
+  }, [item.image]);
 
   return (
     <VStack className={card.root}>

@@ -23,7 +23,7 @@ export interface SearchFilters {
   sortOrder?: "ASC" | "DESC";
 }
 
-export type Image = {
+export interface Image {
   id: string;
   url: string;
   name: string;

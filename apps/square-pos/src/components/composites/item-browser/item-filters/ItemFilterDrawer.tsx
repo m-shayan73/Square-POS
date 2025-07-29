@@ -66,8 +66,6 @@ function ItemFiltersDrawer({
                 <Select.Content style={{ zIndex: 9999 }}>
                   <Select.Item value="default">Default</Select.Item>
                   <Select.Item value="name">Name</Select.Item>
-                  {/* <Select.Item value="price">Price</Select.Item> */}
-                  {/* <Select.Item value="created_at">Created At</Select.Item> */}
                 </Select.Content>
               </Select.Root>
             </Box>

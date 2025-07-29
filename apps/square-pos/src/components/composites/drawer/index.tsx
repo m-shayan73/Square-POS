@@ -12,7 +12,7 @@ const Drawer = memo(function Drawer({
 }: {
   open: boolean;
   onClose: () => void;
-  drawerRef: React.RefObject<HTMLDivElement | null>;
+  drawerRef?: React.RefObject<HTMLDivElement | null>;
   children: React.ReactNode;
 }) {
   if (!open) return null;

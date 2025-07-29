@@ -51,9 +51,8 @@ export const itemCard = defineSlotRecipe({
       xs: { image: { height: '24px', minHeight: '24px' } },
       sm: { image: { height: '48px', minHeight: '48px' } },
       md: { image: { height: '100px', minHeight: '100px' } },
-      lg: { image: { height: '160px', minHeight: '160px' } },
-      xl: { image: { height: '240px', minHeight: '240px' } },
-      '2xl': { image: { height: '280px', minHeight: '280px' } },
+      lg: { image: { height: '180px', minHeight: '180px' } },
+      xl: { image: { height: '260px', minHeight: '260px' } },
     },
   },
   defaultVariants: {

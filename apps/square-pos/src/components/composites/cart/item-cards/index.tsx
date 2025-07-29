@@ -1,17 +1,17 @@
-import type { CartProps } from '@/components/composites/cart'
-import { Paragraph } from '@pallas-ui/components/src/ui/typography'
-import { memo } from 'react'
-import CartItemCard from './ItemCard'
+import type { CartProps } from "@/components/composites/cart";
+import { Paragraph } from "@pallas-ui/components/src/ui/typography";
+import { memo } from "react";
+import CartItemCard from "./ItemCard";
 
 export type ItemCardsProps = Pick<
   CartProps,
-  | 'items'
-  | 'updateQuantity'
-  | 'availableDiscounts'
-  | 'availableTaxes'
-  | 'handleItemDiscountsChange'
-  | 'handleItemTaxesChange'
->
+  | "items"
+  | "updateQuantity"
+  | "availableDiscounts"
+  | "availableTaxes"
+  | "handleItemDiscountsChange"
+  | "handleItemTaxesChange"
+>;
 
 const ItemCards = memo(function ItemCards({
   items,
@@ -26,7 +26,7 @@ const ItemCards = memo(function ItemCards({
       <Paragraph color="secondary" size="compact">
         Your cart is empty.
       </Paragraph>
-    )
+    );
   }
 
   return (
@@ -43,7 +43,7 @@ const ItemCards = memo(function ItemCards({
         />
       ))}
     </>
-  )
-})
+  );
+});
 
-export default ItemCards
+export default ItemCards;

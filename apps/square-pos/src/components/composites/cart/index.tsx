@@ -9,6 +9,8 @@ import Select, { type OnChangeValue } from "react-select";
 import CartIcon from "./CartIcon";
 import CartTotals from "./CartTotals";
 import ItemCards from "./item-cards";
+import { Separator } from "@pallas-ui/components/src/ui/separator";
+import OrderToast from "./OrderToast";
 
 interface ModifiedItem
   extends Omit<CartItem, "discountsApplied" | "taxesApplied"> {
@@ -20,6 +22,8 @@ export interface CartProps {
   openCartDrawer: boolean;
   setOpenCartDrawer: (open: boolean) => void;
   cartDrawerRef: React.RefObject<HTMLDivElement | null>;
+  openOrderToast: boolean;
+  setOpenOrderToast: (open: boolean) => void;
   items: ModifiedItem[];
   amounts: {
     subtotal: number;
@@ -60,6 +64,8 @@ const Cart = memo(function Cart({
   openCartDrawer,
   setOpenCartDrawer,
   cartDrawerRef,
+  openOrderToast,
+  setOpenOrderToast,
   items,
   amounts,
   isOrderCalculationLoading,
@@ -81,7 +87,11 @@ const Cart = memo(function Cart({
     <>
       <CartIcon setOpen={setOpenCartDrawer} itemCount={itemCount} />
 
-      <Drawer open={openCartDrawer} onClose={() => setOpenCartDrawer(false)} drawerRef={cartDrawerRef}>
+      <Drawer
+        open={openCartDrawer}
+        onClose={() => setOpenCartDrawer(false)}
+        drawerRef={cartDrawerRef}
+      >
         <VStack gap="gap.component.lg" align="stretch" flex="1">
           <Heading level={5}>Your Cart</Heading>
 
@@ -96,6 +106,8 @@ const Cart = memo(function Cart({
             />
           </VStack>
 
+          <Separator />
+
           <Grid
             gridTemplateColumns="auto 1fr"
             gap="gap.inline.sm"
@@ -106,7 +118,7 @@ const Cart = memo(function Cart({
             <Select
               isMulti={true}
               options={availableDiscounts}
-              placeholder="Apply discount"
+              placeholder="Apply order level discounts"
               isClearable={true}
               value={globalDiscountsApplied}
               onChange={handleGlobalDiscountsChange}
@@ -117,7 +129,7 @@ const Cart = memo(function Cart({
             <Select
               isMulti={true}
               options={availableTaxes}
-              placeholder="Apply tax"
+              placeholder="Apply order level taxes"
               isClearable={true}
               value={globalTaxesApplied}
               onChange={handleGlobalTaxesChange}
@@ -132,6 +144,7 @@ const Cart = memo(function Cart({
 
           <Flex gap="gap.inline.sm" justify="space-between">
             <Button
+              size="lg"
               variant="outlined"
               onClick={clearCart}
               disabled={itemCount === 0}
@@ -139,6 +152,7 @@ const Cart = memo(function Cart({
               Clear Cart
             </Button>
             <Button
+              size="lg"
               variant="primary"
               disabled={itemCount === 0}
               onClick={handleCheckout}
@@ -148,6 +162,8 @@ const Cart = memo(function Cart({
           </Flex>
         </VStack>
       </Drawer>
+
+      <OrderToast open={openOrderToast} setOpen={setOpenOrderToast} />
     </>
   );
 });

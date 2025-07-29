@@ -26,6 +26,8 @@ export function useHeader() {
     openCartDrawer,
     setOpenCartDrawer,
     cartDrawerRef,
+    openOrderToast,
+    setOpenOrderToast,
     items,
     amounts,
     isOrderCalculationLoading,
@@ -71,6 +73,8 @@ export function useHeader() {
     openCartDrawer,
     setOpenCartDrawer,
     cartDrawerRef,
+    openOrderToast,
+    setOpenOrderToast,
     items,
     amounts,
     isOrderCalculationLoading,
@@ -91,6 +95,7 @@ export function useHeader() {
 function useCart() {
   const router = useRouter();
   const [openCartDrawer, setOpenCartDrawer] = useState(false);
+  const [openOrderToast, setOpenOrderToast] = useState(false);
   const { discounts: availableDiscounts } = getDiscounts();
   const { taxes: availableTaxes } = getTaxes();
 
@@ -156,9 +161,9 @@ function useCart() {
   }, [orderCalculation, setCartAmounts]);
 
   const handleCheckout = useCallback(() => {
-    router.push("/checkout");
     setOpenCartDrawer(false);
-  }, [router]);
+    setOpenOrderToast(true);
+  }, []);
 
   // Transformed for react select
   const handleItemDiscountsChange = useCallback(
@@ -243,6 +248,8 @@ function useCart() {
     openCartDrawer,
     setOpenCartDrawer,
     cartDrawerRef,
+    openOrderToast,
+    setOpenOrderToast,
     items: transformedItems,
     amounts,
     isOrderCalculationLoading,

@@ -19,7 +19,7 @@ type ItemCardProps = {
   addToCart: (item: CartItem) => void;
 };
 
-const card = itemCard({ imageSize: "2xl" });
+const card = itemCard({ imageSize: "xl" });
 
 export default function ItemCard({ item, addToCart }: ItemCardProps) {
   // In square, each item must have a single variation. (also, price data is inside variation)
@@ -45,13 +45,13 @@ export default function ItemCard({ item, addToCart }: ItemCardProps) {
   }
 
   return (
-    <Box className={card.root} aria-label={`Item card for ${item.name}`}>
+    <Box className={card.root}>
       <Box className={card.image}>
         {image ? (
           <Box position="relative" width="full" height="full">
             <NextImage
-              src={image?.url || ""}
-              alt={image?.name || ""}
+              src={image.url || ""}
+              alt={image.name || ""}
               fill={true}
               sizes=""
             />
