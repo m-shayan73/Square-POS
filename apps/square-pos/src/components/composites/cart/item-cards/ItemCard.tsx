@@ -76,18 +76,18 @@ const CartItemCard = memo(function CartItemCard({
   return (
     <VStack className={card.root}>
       <HStack width="full">
-        <Box className={card.image} width={"1/5"} height={"[56px]"}>
+        <Box className={card.image} width={"1/5"} height={{base: "40px", md: "56px"}}>
           {imageComponent}
         </Box>
 
         <Box flex="1">
-          <Paragraph size="subscript" textStyle="bold">
+          <Paragraph size={{ base: "base", "2xl": "compact" }} textStyle="bold">
             {item.itemName}
           </Paragraph>
-          <Paragraph size="subscript" color="secondary">
+          <Paragraph size={{ base: "compact", "2xl": "subscript" }} color="secondary">
             {item.variationName}
           </Paragraph>
-          <Paragraph size="subscript" textStyle="italic">
+          <Paragraph size={{ base: "compact", "2xl": "subscript" }} textStyle="italic">
             Price: {formattedPrice}
           </Paragraph>
         </Box>
@@ -102,11 +102,11 @@ const CartItemCard = memo(function CartItemCard({
       <Grid
         gridTemplateColumns="auto 1fr"
         gap="gap.inline.xs"
-        textStyle="xs"
+        textStyle={{ base: "xs", md: "sm" }}
         width="full"
         alignItems="flex-end"
       >
-        <Paragraph size="subscript" css={{ textStyle: "sm" }}>
+        <Paragraph size={{ base: "compact", "2xl": "subscript" }}>
           Discounts:
         </Paragraph>
         <Select
@@ -118,7 +118,7 @@ const CartItemCard = memo(function CartItemCard({
           onChange={handleDiscountChange}
         />
 
-        <Paragraph size="subscript" css={{ textStyle: "sm" }}>
+        <Paragraph size={{ base: "compact", "2xl": "subscript" }}>
           Taxes:
         </Paragraph>
         <Select

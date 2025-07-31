@@ -111,7 +111,7 @@ const Cart = memo(function Cart({
           <Grid
             gridTemplateColumns="auto 1fr"
             gap="gap.inline.sm"
-            textStyle="sm"
+            textStyle={{ base: "xs", md: "sm" }}
             alignItems="flex-end"
           >
             <Paragraph size="compact">Discounts:</Paragraph>
@@ -144,7 +144,7 @@ const Cart = memo(function Cart({
 
           <Flex gap="gap.inline.sm" justify="space-between">
             <Button
-              size="lg"
+              size={{ base: "md", md: "lg" }}
               variant="outlined"
               onClick={clearCart}
               disabled={itemCount === 0}
@@ -152,7 +152,7 @@ const Cart = memo(function Cart({
               Clear Cart
             </Button>
             <Button
-              size="lg"
+              size={{ base: "md", md: "lg" }}
               variant="primary"
               disabled={itemCount === 0}
               onClick={handleCheckout}

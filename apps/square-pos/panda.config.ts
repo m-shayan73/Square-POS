@@ -52,11 +52,11 @@ export default defineConfig({
           heading: {
             value: 'var(--font-heading)',
           },
-          sans: {
-            value: 'var(--font-sans)',
-          },
           body: {
             value: 'var(--font-sans)',
+          },
+          mono: {
+            value: 'var(--font-mono)',
           },
         },
         borders: {

@@ -135,7 +135,7 @@ export class SquarePosService implements IPosService {
           if (!filteredVariations || filteredVariations.length === 0) return;
 
           // Create item with filtered variations
-          const newItem = this.catalogObjectToItem(item);
+          const newItem = this.catalogObjectToItem(item, imageMap);
 
           items.push(newItem);
         }

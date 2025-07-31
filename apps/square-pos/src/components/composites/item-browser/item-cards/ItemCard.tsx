@@ -6,20 +6,20 @@ import { formatMoney } from "@/shared/utils/helpers";
 import { Button } from "@pallas-ui/components/src/ui/button";
 import Select from "@pallas-ui/components/src/ui/select";
 import { Heading, Paragraph } from "@pallas-ui/components/src/ui/typography";
-import { Box, HStack } from "@styled-system/jsx";
+import { Box, HStack, VStack } from "@styled-system/jsx";
 import { itemCard } from "@styled-system/recipes";
 import NextImage from "next/image";
 import React from "react";
 
-import type { Item } from "@/shared/types/items";
 import type { CartItem } from "@/shared/types/cart";
+import type { Item } from "@/shared/types/items";
 
 type ItemCardProps = {
   item: Item;
   addToCart: (item: CartItem) => void;
 };
 
-const card = itemCard({ imageSize: "xl" });
+const card = itemCard();
 
 export default function ItemCard({ item, addToCart }: ItemCardProps) {
   // In square, each item must have a single variation. (also, price data is inside variation)
@@ -46,29 +46,69 @@ export default function ItemCard({ item, addToCart }: ItemCardProps) {
 
   return (
     <Box className={card.root}>
-      <Box className={card.image}>
-        {image ? (
-          <Box position="relative" width="full" height="full">
-            <NextImage
-              src={image.url || ""}
-              alt={image.name || ""}
-              fill={true}
-              sizes=""
-            />
+      <VStack className={card.body}>
+        <HStack align="flex-start" gap="gap.inline.md">
+          <Box
+            className={card.image}
+            flexShrink={0}
+            width={{ base: "100px", md: "130px" }}
+            minHeight={{ base: "100px", md: "130px" }}
+            position="relative"
+          >
+            {image ? (
+              <NextImage
+                src={image.url || ""}
+                alt={image.name || ""}
+                fill={true}
+              />
+            ) : (
+              <DecorativeBox>
+                <ImageSkeleton imageIconSize={60} />
+              </DecorativeBox>
+            )}
           </Box>
-        ) : (
-          <DecorativeBox>
-            <ImageSkeleton imageIconSize={60} />
-          </DecorativeBox>
-        )}
-      </Box>
 
-      <Box className={card.body}>
-        <HStack justify="space-between">
-          <Heading level={6} css={{ truncate: true, fontWeight: "medium" }}>
-            {item.name}
-          </Heading>
-          <Paragraph size="compact" textStyle="italic">
+          <VStack flex={1} justifyContent="space-between" height="full">
+            <VStack gap="0">
+              <Paragraph
+                truncate={true}
+                size={{ base: "base", sm: "large" }}
+                fontWeight="bold"
+              >
+                {item.name}
+              </Paragraph>
+              <Paragraph
+                size={{ base: "compact", sm: "base" }}
+                color="secondary"
+                lineClamp={2}
+              >
+                {item.description || "No description available."}
+              </Paragraph>
+            </VStack>
+            <Select.Root
+              value={selectedVariationId}
+              onValueChange={setSelectedVariationId}
+            >
+              <Select.Trigger>
+                <Select.Value placeholder="Select variant" />
+              </Select.Trigger>
+              <Select.Content>
+                {item.variations?.map((variation) => (
+                  <Select.Item key={variation.id} value={variation.id}>
+                    <Paragraph size="compact">{variation.name}</Paragraph>
+                  </Select.Item>
+                ))}
+              </Select.Content>
+            </Select.Root>
+          </VStack>
+        </HStack>
+
+        <HStack justify="space-between" align="center" width="100%">
+          <Paragraph
+            size={{ base: "base", sm: "large" }}
+            fontWeight="semibold"
+            fontFamily="mono"
+          >
             {selectedVariation?.price
               ? formatMoney({
                   amount: selectedVariation.price.amount,
@@ -76,30 +116,9 @@ export default function ItemCard({ item, addToCart }: ItemCardProps) {
                 })
               : "N/A"}
           </Paragraph>
-        </HStack>
-
-        <Paragraph size="compact" color="secondary" truncate={true}>
-          {item.description || "No description available."}
-        </Paragraph>
-
-        <HStack justify="space-between">
-          <Select.Root
-            value={selectedVariationId}
-            onValueChange={setSelectedVariationId}
-          >
-            <Select.Trigger width="3/5">
-              <Select.Value placeholder="Select variant" />
-            </Select.Trigger>
-            <Select.Content>
-              {item.variations?.map((variation) => (
-                <Select.Item key={variation.id} value={variation.id}>
-                  {variation.name}
-                </Select.Item>
-              ))}
-            </Select.Content>
-          </Select.Root>
 
           <Button
+            size="md"
             variant="primary"
             onClick={() => {
               if (!selectedVariation) return;
@@ -119,7 +138,7 @@ export default function ItemCard({ item, addToCart }: ItemCardProps) {
             Add to Cart
           </Button>
         </HStack>
-      </Box>
+      </VStack>
     </Box>
   );
 }

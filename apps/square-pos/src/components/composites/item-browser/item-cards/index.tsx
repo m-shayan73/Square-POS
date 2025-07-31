@@ -1,7 +1,7 @@
 import type { Item } from "@/shared/types/items";
 import type { CartItem } from "@/shared/types/cart";
 import { Paragraph } from "@pallas-ui/components/src/ui/typography";
-import { Flex, Grid } from "@styled-system/jsx";
+import { Center, Grid } from "@styled-system/jsx";
 import ItemCard from "./ItemCard";
 import { memo } from "react";
 
@@ -15,23 +15,20 @@ function ItemCards({ items, addToCart }: ItemCardsProps) {
 
   if (!items || items.length === 0) {
     return (
-      <Flex
+      <Center
         css={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
           height: "200px",
         }}
       >
         <Paragraph>No items found</Paragraph>
-      </Flex>
+      </Center>
     );
   }
 
   return (
     <Grid
-      columns={{ base: 1, sm: 2, lg: 3, xl: 4, "2xl": 5 }}
-      gap={{ base: "gap.component.md", sm: "gap.component.lg" }}
+      columns={{ base: 1, sm: 2, xl: 3, "2xl": 4 }}
+      gap={{ base: "gap.component.sm", lg: "gap.component.md" }}
     >
       {items.map((item: Item) => {
         return <ItemCard key={item.id} item={item} addToCart={addToCart} />;

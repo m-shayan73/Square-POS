@@ -1,4 +1,4 @@
-import type { Discount, Tax } from '@/shared/services/pos/pos.interface'
+import type { Discount, Tax } from '@/shared/types'
 import { createJSONStorage, persist } from 'zustand/middleware'
 import { createStore } from 'zustand/vanilla'
 import type { CartItem } from '../types/cart'
