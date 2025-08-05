@@ -8,7 +8,6 @@ export interface ItemFiltersProps {
   categories: Category[];
   filters: SearchFilters;
   handleFilterChange: (field: keyof SearchFilters, value: string) => void;
-  maxPriceLimit?: number;
 }
 
 export default function ItemFilters({

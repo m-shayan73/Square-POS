@@ -24,8 +24,6 @@ export interface Category {
 export interface SearchFilters {
   search?: string;
   category?: string;
-  minPrice?: number;
-  maxPrice?: number;
   sortBy?: "default" | "name" | "price";
   sortOrder?: "ASC" | "DESC";
 }

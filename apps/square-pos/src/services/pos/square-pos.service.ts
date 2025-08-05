@@ -29,17 +29,12 @@ export class SquarePosService implements IPosService {
   }
 
   async searchItems(filters: SearchFilters): Promise<Item[]> {
-    const { minPrice, maxPrice } = filters || {};
-
-    const isPriceFilterApplied =
-      minPrice !== undefined || maxPrice !== undefined;
-
     const query = this.buildSearchQuery(filters);
 
     const request: Square.SearchCatalogObjectsRequest = {
       includeRelatedObjects: true,
       includeDeletedObjects: false,
-      objectTypes: isPriceFilterApplied ? ["ITEM_VARIATION"] : ["ITEM"],
+      objectTypes: ["ITEM"],
       ...(Object.keys(query).length > 0 ? { query } : {}),
     };
 
@@ -66,41 +61,9 @@ export class SquarePosService implements IPosService {
       };
     });
 
-    if (isPriceFilterApplied) {
-      // Build items from related objects as price filtering is applied on item variations and we need items to display on UI
-      data.relatedObjects?.forEach((item) => {
-        if (item.type === "ITEM" && item.itemData) {
-          // Filter variations by price
-          const filteredVariations = item.itemData.variations?.filter(
-            (variation) => {
-              if (
-                variation.type !== "ITEM_VARIATION" ||
-                !variation.itemVariationData
-              ) {
-                return false;
-              }
-              const variationData = variation.itemVariationData;
-              const amount = variationData.priceMoney?.amount || 0;
-              return (
-                amount >= (minPrice ? minPrice * 100 : 0) &&
-                amount <= (maxPrice ? maxPrice * 100 : Number.MAX_SAFE_INTEGER)
-              );
-            }
-          );
-
-          if (!filteredVariations || filteredVariations.length === 0) return;
-
-          // Create item with filtered variations
-          const newItem = this.catalogObjectToItem(item, imageMap);
-
-          items.push(newItem);
-        }
-      });
-    } else {
-      items.push(
-        ...data.objects.map((obj) => this.catalogObjectToItem(obj, imageMap))
-      );
-    }
+    items.push(
+      ...data.objects.map((obj) => this.catalogObjectToItem(obj, imageMap))
+    );
 
     return items;
   }
@@ -243,13 +206,11 @@ export class SquarePosService implements IPosService {
   }
 
   private buildSearchQuery(filters: SearchFilters): Square.CatalogQuery {
-    const { search, category, minPrice, maxPrice, sortBy, sortOrder } =
+    const { search, category, sortBy, sortOrder } =
       filters || {};
 
     const isSearchApplied = search && search.trim().length > 1;
     const isCategoryApplied = category && category.trim() !== "all";
-    const isPriceFilterApplied =
-      minPrice !== undefined || maxPrice !== undefined;
     const isSortApplied = sortBy !== undefined && sortOrder !== undefined;
 
     const query: Square.CatalogQuery = {};
@@ -266,25 +227,6 @@ export class SquarePosService implements IPosService {
       query.exactQuery = {
         attributeName: "category",
         attributeValue: category,
-      };
-    }
-
-    // Add price filtering if provided
-    if (isPriceFilterApplied) {
-      query.rangeQuery = {
-        attributeName: "price",
-
-        ...(minPrice !== undefined
-          ? { attributeMinValue: BigInt(minPrice * 100) }
-          : maxPrice !== undefined
-            ? { attribute_min_value: 0 }
-            : {}),
-
-        ...(maxPrice !== undefined
-          ? { attributeMaxValue: BigInt(maxPrice * 100) }
-          : minPrice !== undefined
-            ? { attributeMaxValue: BigInt(Number.MAX_SAFE_INTEGER) }
-            : {}),
       };
     }
 
