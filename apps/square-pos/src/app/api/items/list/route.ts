@@ -1,27 +1,27 @@
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
-import { createPosService } from '@/shared/services/pos/pos-service-factory'
-import type { IPosService } from '@/shared/services/pos/pos.interface'
-import { getServerSession } from 'next-auth'
-import { NextResponse } from 'next/server'
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { createPosService } from "@/services/pos/pos-service-factory";
+import type { IPosService } from "@/services/pos/pos.interface";
+import { getServerSession } from "next-auth";
+import { NextResponse } from "next/server";
 
-export function createListItemsRoute(
-  createPosServiceFn: (token: string, locationId: string) => IPosService,
+function createListItemsRoute(
+  createPosServiceFn: (token: string, locationId: string) => IPosService
 ) {
   return async function GET() {
-    const session = await getServerSession(authOptions)
+    const session = await getServerSession(authOptions);
 
     if (!session) {
-      return new NextResponse('Unauthorized', { status: 401 })
+      return new NextResponse("Unauthorized", { status: 401 });
     }
 
     const itemsService = createPosServiceFn(
       session.accessToken as string,
-      session.locationId as string,
-    )
+      session.locationId as string
+    );
 
-    const items = await itemsService.listItems()
-    return NextResponse.json(items)
-  }
+    const items = await itemsService.listItems();
+    return NextResponse.json(items);
+  };
 }
 
-export const GET = createListItemsRoute(createPosService)
+export const GET = createListItemsRoute(createPosService);

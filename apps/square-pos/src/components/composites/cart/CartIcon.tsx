@@ -1,4 +1,4 @@
-import { Badge } from '@pallas-ui/components/src/ui/badge'
+import { Badge } from '@/components/primitives/badge'
 import { Box } from '@styled-system/jsx'
 import { ShoppingCart } from 'lucide-react'
 import { css } from '@styled-system/css'

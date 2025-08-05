@@ -2,7 +2,7 @@ import { createPreset } from '@pallas-ui/panda-preset'
 import { presetPrimaryColors } from '@pallas-ui/panda-preset/colors/paletteGenerator'
 import type { ThemeColorPalette } from '@pallas-ui/panda-preset/types'
 import { defineConfig } from '@pandacss/dev'
-import { itemCard } from '@/shared/styles/recipes/card'
+import { myCard } from '@/styles/recipes/card'
 
 const themeColorPalette: ThemeColorPalette = {
   // biome-ignore lint/style/noNonNullAssertion: <explanation>
@@ -68,7 +68,7 @@ export default defineConfig({
       semanticTokens: {
         sizes: {
           header: { value: '4rem' },
-          cartDrawer: { value: { base: '280px', sm: '360px' } },
+          cartDrawer: { value: { base: '340px', sm: '380px' } },
         },
         spacing: {
           padding: {
@@ -81,7 +81,7 @@ export default defineConfig({
         },
       },
       recipes: {
-        itemCard: itemCard,
+        myCard: myCard,
       },
     },
   },

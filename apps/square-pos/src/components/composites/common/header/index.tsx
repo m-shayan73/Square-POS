@@ -1,5 +1,3 @@
-'use client'
-
 import Cart from '@/components/composites/cart'
 import type { CartProps } from '@/components/composites/cart'
 import { css } from '@styled-system/css'

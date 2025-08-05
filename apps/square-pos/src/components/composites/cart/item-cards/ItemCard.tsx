@@ -1,16 +1,16 @@
 import type { ItemCardsProps } from "@/components/composites/cart/item-cards";
-import ImageSkeleton from "@/components/composites/common/ImageSkeleton";
-import type { DiscountOption, TaxOption } from "@/shared/types/ui";
-import { Button } from "@pallas-ui/components/src/ui/button";
-import { Paragraph } from "@pallas-ui/components/src/ui/typography";
+import { Button } from "@/components/primitives/button";
+import { ImageSkeleton } from "@/components/primitives/skeleton";
+import { Paragraph } from "@/components/primitives/typography";
+import type { DiscountOption, TaxOption } from "@/types/ui";
 import { Box, Grid, HStack, VStack } from "@styled-system/jsx";
-import { itemCard } from "@styled-system/recipes";
+import { myCard } from "@styled-system/recipes";
+import lodash from "lodash";
 import { Minus, Plus } from "lucide-react";
 import Image from "next/image";
 import { memo, useCallback, useMemo } from "react";
 import type { OnChangeValue } from "react-select";
 import Select from "react-select";
-import lodash from "lodash";
 
 type ItemCardProps = { item: ItemCardsProps["items"][number] } & Pick<
   ItemCardsProps,
@@ -31,7 +31,7 @@ function propsAreEqual(prev: ItemCardProps, next: ItemCardProps) {
   );
 }
 
-const card = itemCard({ variant: "cart" });
+const card = myCard({ variant: "cart", hover: false });
 
 const CartItemCard = memo(function CartItemCard({
   item,
@@ -67,7 +67,12 @@ const CartItemCard = memo(function CartItemCard({
 
   const imageComponent = useMemo(() => {
     return item.image ? (
-      <Image src={item.image.url} alt={item.image.name} fill={true} />
+      <Image
+        src={item.image.url}
+        alt={item.image.name}
+        fill
+        sizes="56px"
+      />
     ) : (
       <ImageSkeleton imageIconSize={32} />
     );
@@ -76,19 +81,24 @@ const CartItemCard = memo(function CartItemCard({
   return (
     <VStack className={card.root}>
       <HStack width="full">
-        <Box className={card.image} width={"1/5"} height={{base: "40px", md: "56px"}}>
-          {imageComponent}
-        </Box>
+        <Box className={card.image}  width="60px" height="60px">{imageComponent}</Box>
 
         <Box flex="1">
           <Paragraph size={{ base: "base", "2xl": "compact" }} textStyle="bold">
             {item.itemName}
           </Paragraph>
-          <Paragraph size={{ base: "compact", "2xl": "subscript" }} color="secondary">
+          <Paragraph
+            size={{ base: "compact", "2xl": "subscript" }}
+            color="secondary"
+          >
             {item.variationName}
           </Paragraph>
-          <Paragraph size={{ base: "compact", "2xl": "subscript" }} textStyle="italic">
-            Price: {formattedPrice}
+          <Paragraph
+            size={{ base: "compact", "2xl": "subscript" }}
+            // textStyle="italic"
+            fontFamily="mono"
+          >
+            {formattedPrice} / unit
           </Paragraph>
         </Box>
 

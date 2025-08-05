@@ -1,5 +1,5 @@
 import type { CartProps } from "@/components/composites/cart";
-import { Paragraph } from "@pallas-ui/components/src/ui/typography";
+import { Paragraph } from "@/components/primitives/typography";
 import { memo } from "react";
 import CartItemCard from "./ItemCard";
 

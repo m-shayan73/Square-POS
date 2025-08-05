@@ -1,6 +1,6 @@
 import { HStack } from '@styled-system/jsx'
 import Image from 'next/image'
-import { Heading } from '@pallas-ui/components/src/ui/typography'
+import { Heading } from '@/components/primitives/typography'
 import { css } from '@styled-system/css'
 import { memo } from 'react'
 

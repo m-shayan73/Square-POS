@@ -1,8 +1,6 @@
-"use client";
-
-import { Button } from "@pallas-ui/components/src/ui/button";
-import Toast from "@pallas-ui/components/src/ui/toast";
-import { Paragraph } from "@pallas-ui/components/src/ui/typography";
+import { Button } from "@/components/primitives/button";
+import Toast from "@/components/primitives/toast";
+import { Paragraph } from "@/components/primitives/typography";
 import { css } from "@styled-system/css";
 import { Box } from "@styled-system/jsx";
 import { ArrowRight, ShoppingBag, X } from "lucide-react";

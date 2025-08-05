@@ -1,16 +1,16 @@
-import Drawer from "@/components/composites/drawer";
-import type { DiscountOption, TaxOption, CartItem } from "@/shared/types";
-import { Button } from "@pallas-ui/components/src/ui/button";
-import { Heading, Paragraph } from "@pallas-ui/components/src/ui/typography";
-import { Box, Flex, Grid, HStack, VStack } from "@styled-system/jsx";
+import { Button } from "@/components/primitives/button";
+import Drawer from "@/components/primitives/drawer";
+import { Separator } from "@/components/primitives/separator";
+import { Heading, Paragraph } from "@/components/primitives/typography";
+import type { CartItem, DiscountOption, TaxOption } from "@/types";
+import { Flex, Grid, VStack } from "@styled-system/jsx";
 import type React from "react";
 import { memo } from "react";
 import Select, { type OnChangeValue } from "react-select";
 import CartIcon from "./CartIcon";
 import CartTotals from "./CartTotals";
-import ItemCards from "./item-cards";
-import { Separator } from "@pallas-ui/components/src/ui/separator";
 import OrderToast from "./OrderToast";
+import ItemCards from "./item-cards";
 
 interface ModifiedItem
   extends Omit<CartItem, "discountsApplied" | "taxesApplied"> {

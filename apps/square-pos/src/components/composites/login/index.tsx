@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@pallas-ui/components/src/ui/button";
+import { Button } from "@/components/primitives/button";
 import { Center } from "@styled-system/jsx";
 import { signIn } from "next-auth/react";
 import Image from "next/image";

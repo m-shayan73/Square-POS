@@ -1,7 +1,5 @@
-'use client'
-
-import Avatar from '@pallas-ui/components/src/ui/avatar'
-import Menubar from '@pallas-ui/components/src/ui/menu-bar'
+import Avatar from '@/components/primitives/avatar'
+import Menubar from '@/components/primitives/menu-bar'
 import { Box } from '@styled-system/jsx'
 import { User2 } from 'lucide-react'
 import { memo } from 'react'

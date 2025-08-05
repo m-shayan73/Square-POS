@@ -1,22 +1,20 @@
-import { useCartStore } from "@/shared/providers";
-import { clientApi } from "@/shared/services/clients/client-api";
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import usePreventBubbleScroll from "@/hooks/usePreventBubbleScroll";
+import { useCartStore } from "@/providers";
+import { clientApi } from "@/services/clients/client-api";
+import { useQuery } from "@tanstack/react-query";
+import debounce from "lodash/debounce";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState, useCallback, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { OnChangeValue } from "react-select";
 import { useShallow } from "zustand/react/shallow";
-import debounce from "lodash/debounce";
-import usePreventBubbleScroll from "@/shared/hooks/usePreventBubbleScroll";
 
 import type {
   CartItem,
-  Discount,
   DiscountOption,
   OrderCalculationResult,
-  Tax,
   TaxOption,
-} from "@/shared/types";
+} from "@/types";
 
 export function useHeader() {
   const router = useRouter();
@@ -93,14 +91,24 @@ export function useHeader() {
 }
 
 function useCart() {
-  const router = useRouter();
   const [openCartDrawer, setOpenCartDrawer] = useState(false);
   const [openOrderToast, setOpenOrderToast] = useState(false);
-  const { discounts: availableDiscounts } = getDiscounts();
-  const { taxes: availableTaxes } = getTaxes();
+  const { data: availableDiscounts } = useQuery({
+    queryKey: ["discounts"],
+    queryFn: async () => {
+      const response = await clientApi.get("/api/pricing/discounts/list");
+      return response.data;
+    },
+  });
+  const { data: availableTaxes } = useQuery({
+    queryKey: ["taxes"],
+    queryFn: async () => {
+      const response = await clientApi.get("/api/pricing/taxes/list");
+      return response.data;
+    },
+  });
 
   const cartDrawerRef = useRef<HTMLDivElement>(null);
-
   usePreventBubbleScroll(cartDrawerRef, openCartDrawer);
 
   const {
@@ -265,33 +273,6 @@ function useCart() {
     handleCheckout,
     clearCart,
   };
-}
-
-export function getDiscounts(): {
-  discounts: Discount[];
-  isLoadingDiscounts: boolean;
-} {
-  const { data: discounts, isLoading: isLoadingDiscounts } = useQuery({
-    queryKey: ["discounts"],
-    queryFn: async () => {
-      const response = await clientApi.get("/api/pricing/discounts/list");
-      return response.data;
-    },
-  });
-
-  return { discounts, isLoadingDiscounts };
-}
-
-export function getTaxes(): { taxes: Tax[]; isLoadingTaxes: boolean } {
-  const { data: taxes, isLoading: isLoadingTaxes } = useQuery({
-    queryKey: ["taxes"],
-    queryFn: async () => {
-      const response = await clientApi.get("/api/pricing/taxes/list");
-      return response.data;
-    },
-  });
-
-  return { taxes, isLoadingTaxes };
 }
 
 export const useOrderCalculation = (

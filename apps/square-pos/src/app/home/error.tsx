@@ -1,9 +1,9 @@
 "use client"; // Error boundaries must be Client Components
 
-import { Box, VStack } from "@styled-system/jsx";
-import { Paragraph } from "@pallas-ui/components/src/ui/typography";
+import { Button } from "@/components/primitives/button";
+import { Paragraph } from "@/components/primitives/typography";
+import { Box } from "@styled-system/jsx";
 import { useEffect } from "react";
-import { Button } from "@pallas-ui/components/src/ui/button";
 
 export default function Error({
   error,
@@ -17,8 +17,11 @@ export default function Error({
   }, [error]);
 
   return (
-    <Box>
+    <Box padding="padding.block.3xl">
       <Paragraph color="error">Something went wrong.</Paragraph>
+      <Paragraph color="error" fontSize="sm">
+        {error.message}
+      </Paragraph>
       <Button onClick={() => reset()}>Try again</Button>
     </Box>
   );
