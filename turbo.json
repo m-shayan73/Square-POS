@@ -1,6 +1,12 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
+  "globalEnv": [
+    "NEXTAUTH_SECRET",
+    "NEXTAUTH_URL",
+    "AUTH_SQUARE_ID",
+    "AUTH_SQUARE_SECRET"
+  ],
   "tasks": {
     "build": {
       "dependsOn": [

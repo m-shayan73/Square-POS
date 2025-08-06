@@ -1,4 +1,4 @@
-import { ReactScan } from "@/containers/ReactScan";
+// import { ReactScan } from "@/containers/ReactScan";
 import { AuthSessionProvider } from "@/providers";
 import QueryProvider from "@/providers/TanStackQueryProvider";
 import { Inter, Roboto, Roboto_Mono } from "next/font/google";
@@ -38,10 +38,10 @@ export default function RootLayout({
       lang="en"
       className={`${roboto.variable} ${notoSans.variable} ${robotoMono.variable}`}
     >
-      <head>
+      {/* <head>
         <script src="https://cdn.jsdelivr.net/npm/react-scan/dist/auto.global.js" />
       </head>
-      <ReactScan />
+      <ReactScan /> */}
       <body>
         <AuthSessionProvider>
           <QueryProvider>{children}</QueryProvider>
