@@ -23,9 +23,7 @@ export default function useItemFilters() {
     (field: keyof typeof filters, value: string) => {
       const newFilters = { ...localFilters };
 
-      if (field === "minPrice" || field === "maxPrice") {
-        newFilters[field] = value === "" ? undefined : Number(value);
-      } else if (field === "sortBy") {
+      if (field === "sortBy") {
         newFilters.sortBy = value as "default" | "name" | "price";
         if (value === "default") {
           newFilters.sortOrder = undefined;
@@ -37,14 +35,10 @@ export default function useItemFilters() {
       } else if (field === "category") {
         newFilters.category = value;
         newFilters.search = undefined;
-        newFilters.minPrice = undefined;
-        newFilters.maxPrice = undefined;
         newFilters.sortBy = "default";
         newFilters.sortOrder = undefined;
       } else if (field === "search") {
         newFilters.search = value;
-        newFilters.minPrice = undefined;
-        newFilters.maxPrice = undefined;
         newFilters.sortBy = "default";
         newFilters.sortOrder = undefined;
       }
